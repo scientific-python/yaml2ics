@@ -96,16 +96,14 @@ def event_from_yaml(event_yaml):
     return '\r\n'.join(out)
 
 
-def calendar_from_yaml(calendar_yaml):
-    cal = ics.Calendar()
-    for event in calendar_yaml['events']:
-        cal.events.add(event_from_yaml(event))
-    return cal
-
-
-out = []
+all_events = []
 for f in files:
     calendar_yaml = yaml.load(open(f, 'r'), Loader=yaml.FullLoader)
-    out.append(str(calendar_from_yaml(calendar_yaml)))
+    for event in calendar_yaml['events']:
+        all_events.append(event_from_yaml(event))
 
-print('\n'.join(out))
+cal = ics.Calendar()
+for event in all_events:
+    cal.events.add(event)
+
+print(str(cal))
