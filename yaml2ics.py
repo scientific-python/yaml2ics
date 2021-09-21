@@ -34,6 +34,10 @@ def event_from_yaml(event_yaml):
     d = event_yaml
     repeat = d.pop('repeat', None)
 
+    # Strip all string values, since they often end on `\n`
+    for key in d:
+        d[key] = d[key].strip() if isinstance(d[key], str) else d[key]
+
     # See https://icspy.readthedocs.io/en/stable/api.html#event
     #
     # Keywords:
