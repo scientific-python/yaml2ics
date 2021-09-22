@@ -91,7 +91,7 @@ def event_ics_from_yaml(event_yaml: dict) -> str:
 
 def events_to_calendar_ics(events: dict) -> str:
     cal = ics.Calendar()
-    for event in all_events:
+    for event in events:
         cal.events.add(event)
     return str(cal)
 
