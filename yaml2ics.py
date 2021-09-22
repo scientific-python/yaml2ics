@@ -8,18 +8,6 @@ import dateutil
 import dateutil.rrule
 
 
-
-if len(sys.argv) < 2:
-    print('Usage: yaml2ics.py FILE1.yaml FILE2.yaml ...')
-    sys.exit(-1)
-
-files = sys.argv[1:]
-for f in files:
-    if not os.path.isfile(f):
-        print(f'Error: {f} is not a file')
-        sys.exit(-1)
-
-
 interval_type = {
     'seconds': dateutil.rrule.SECONDLY,
     'minutes': dateutil.rrule.MINUTELY,
@@ -30,7 +18,8 @@ interval_type = {
     'years': dateutil.rrule.YEARLY
 }
 
-def event_from_yaml(event_yaml):
+
+def event_ics_from_yaml(event_yaml: dict) -> str:
     d = event_yaml
     repeat = d.pop('repeat', None)
 
@@ -58,11 +47,11 @@ def event_from_yaml(event_yaml):
             sys.exit(-1)
 
         interval_measure = list(interval.keys())[0]
-        if not interval_measure in interval_type:
+        if interval_measure not in interval_type:
             print('Error: expected interval to be specified in seconds, minutes, hours, days, weeks, months, or years only')
             sys.exit(-1)
 
-        if not 'until' in repeat:
+        if 'until' not in repeat:
             print('Error: must specify end date for repeating events')
             sys.exit(-1)
 
@@ -75,9 +64,9 @@ def event_from_yaml(event_yaml):
         )
 
         rrule_lines = str(rrule).split('\n')
-        rrule_dtstart = [l for l in rrule_lines if l.startswith('DTSTART')][0]
+        rrule_dtstart = [line for line in rrule_lines if line.startswith('DTSTART')][0]
         rrule_dtstart = rrule_dtstart + 'Z'
-        rrule_rrule = [l for l in rrule_lines if l.startswith('RRULE')][0]
+        rrule_rrule = [line for line in rrule_lines if line.startswith('RRULE')][0]
 
         event_lines = str(event).split('\r\n')
 
@@ -100,14 +89,28 @@ def event_from_yaml(event_yaml):
     return '\r\n'.join(out)
 
 
-all_events = []
-for f in files:
-    calendar_yaml = yaml.load(open(f, 'r'), Loader=yaml.FullLoader)
-    for event in calendar_yaml['events']:
-        all_events.append(event_from_yaml(event))
+def events_to_calendar_ics(events: dict) -> str:
+    cal = ics.Calendar()
+    for event in all_events:
+        cal.events.add(event)
+    return str(cal)
 
-cal = ics.Calendar()
-for event in all_events:
-    cal.events.add(event)
 
-print(str(cal))
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print('Usage: yaml2ics.py FILE1.yaml FILE2.yaml ...')
+        sys.exit(-1)
+
+    files = sys.argv[1:]
+    for f in files:
+        if not os.path.isfile(f):
+            print(f'Error: {f} is not a file')
+            sys.exit(-1)
+
+    all_events = []
+    for f in files:
+        calendar_yaml = yaml.load(open(f, 'r'), Loader=yaml.FullLoader)
+        for event in calendar_yaml['events']:
+            all_events.append(event_ics_from_yaml(event))
+
+    print(events_to_calendar_ics(all_events))

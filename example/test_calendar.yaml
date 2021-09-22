@@ -13,11 +13,10 @@ events:
       Office 224, Monolith Bldg, Office Block C
 
   - name: Earth Day
-    begin: 2021-04-22 15:30:00-07:00
-    end: 2021-04-22 16:00:00-07:00
+    begin: 2021-04-22
     url: https://earthday.org
     repeat:
       interval:
         # seconds, minutes, hours, days, weeks, months, years
         years: 1
-      until: 2030-04-22 23:00:00-07:00
+      until: 2030-04-22
