@@ -55,7 +55,7 @@ def event_ics_from_yaml(event_yaml: dict) -> str:
             print('Error: must specify end date for repeating events')
             sys.exit(-1)
 
-        event.end = d.get('end', d['begin'])
+        event.end = d.get('end', None)
 
         rrule = dateutil.rrule.rrule(
             freq=interval_type[interval_measure],
@@ -75,7 +75,7 @@ def event_ics_from_yaml(event_yaml: dict) -> str:
         for line in event_lines:
             out.append(line)
 
-            if line.startswith('DTEND'):
+            if line.startswith('DTSTART'):
                 out.append(rrule_rrule + 'Z')
     else:
         out = str(event).split('\r\n')
