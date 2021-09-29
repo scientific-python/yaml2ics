@@ -1,10 +1,10 @@
 from util import parse_yaml
 
-from yaml2ics import event_ics_from_yaml
+from yaml2ics import event_from_yaml
 
 
 def test_basic_structure():
-    event = event_ics_from_yaml(
+    event = event_from_yaml(
         parse_yaml(
             '''
             summary: Earth Day
@@ -28,7 +28,7 @@ def test_basic_structure():
 
 
 def test_all_day_event():
-    event = event_ics_from_yaml(
+    event = event_from_yaml(
         parse_yaml(
             '''
             summary: Earth Day
@@ -46,7 +46,7 @@ def test_all_day_event():
 
 
 def test_rrule():
-    event = event_ics_from_yaml(
+    event = event_from_yaml(
         parse_yaml(
             '''
             summary: Earth Day
@@ -65,7 +65,7 @@ def test_rrule():
 
 
 def test_event_with_time_range():
-    event = event_ics_from_yaml(
+    event = event_from_yaml(
         parse_yaml(
             '''
             summary: Event of the Century
@@ -82,7 +82,7 @@ def test_event_with_time_range():
 
 
 def test_event_with_duration():
-    event = event_ics_from_yaml(
+    event = event_from_yaml(
         parse_yaml(
             '''
             summary: Event of the Century

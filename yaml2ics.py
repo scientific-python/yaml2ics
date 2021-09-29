@@ -19,7 +19,7 @@ interval_type = {
 }
 
 
-def event_ics_from_yaml(event_yaml: dict) -> ics.Event:
+def event_from_yaml(event_yaml: dict) -> ics.Event:
     d = event_yaml
     repeat = d.pop('repeat', None)
 
@@ -74,11 +74,24 @@ def event_ics_from_yaml(event_yaml: dict) -> ics.Event:
     return event
 
 
-def events_to_calendar_ics(events: dict) -> str:
+def events_to_calendar(events: list) -> str:
     cal = ics.Calendar()
     for event in events:
         cal.events.append(event)
-    return cal.serialize()
+    return cal
+
+def files_to_calendar(files: list) -> ics.Calendar:
+    """'main' function: list of files to our result"""
+    all_events = [ ]
+    for f in files:
+        if hasattr(f, 'read'):
+            calendar_yaml = yaml.load(f.read(), Loader=yaml.FullLoader)
+        else:
+            calendar_yaml = yaml.load(open(f, 'r'), Loader=yaml.FullLoader)
+        for event in calendar_yaml['events']:
+            all_events.append(event_from_yaml(event))
+    calendar = events_to_calendar(all_events)
+    return calendar
 
 
 if __name__ == '__main__':
@@ -92,10 +105,6 @@ if __name__ == '__main__':
             print(f'Error: {f} is not a file')
             sys.exit(-1)
 
-    all_events = []
-    for f in files:
-        calendar_yaml = yaml.load(open(f, 'r'), Loader=yaml.FullLoader)
-        for event in calendar_yaml['events']:
-            all_events.append(event_ics_from_yaml(event))
+    calendar = files_to_calendar(files)
 
-    print(events_to_calendar_ics(all_events))
+    print(calendar.serialize())
