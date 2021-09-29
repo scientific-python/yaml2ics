@@ -22,8 +22,6 @@ interval_type = {
 def event_ics_from_yaml(event_yaml: dict) -> ics.Event:
     d = event_yaml
     repeat = d.pop('repeat', None)
-    if 'name' in d:
-        d['summary'] = d.pop('name')
 
     # Strip all string values, since they often end on `\n`
     for key in d:

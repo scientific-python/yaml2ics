@@ -7,9 +7,10 @@ def test_basic_structure():
     event = event_ics_from_yaml(
         parse_yaml(
             '''
-            name: Earth Day
+            summary: Earth Day
             begin: 2021-04-22
             url: https://earthday.org
+            location: Earth
             '''
         )
     )
@@ -19,7 +20,9 @@ def test_basic_structure():
     lines = event_str.split('\n')
     for line in lines[:-1]:
         assert line.endswith('\r')
-
+    assert 'SUMMARY:Earth Day' in event_str
+    assert 'URL:https://earthday.org' in event_str
+    assert 'LOCATION:Earth' in event_str
     # All events must have a DTSTAMP
     assert 'DTSTAMP' in event_str
 
@@ -28,7 +31,7 @@ def test_all_day_event():
     event = event_ics_from_yaml(
         parse_yaml(
             '''
-            name: Earth Day
+            summary: Earth Day
             begin: 2021-04-22
             url: https://earthday.org
             '''
@@ -46,7 +49,7 @@ def test_rrule():
     event = event_ics_from_yaml(
         parse_yaml(
             '''
-            name: Earth Day
+            summary: Earth Day
             begin: 2021-04-22
             url: https://earthday.org
             repeat:
@@ -65,7 +68,7 @@ def test_event_with_time_range():
     event = event_ics_from_yaml(
         parse_yaml(
             '''
-            name: Event of the Century
+            summary: Event of the Century
             begin: 2021-09-21 15:00:00 -07:00
             end: 2021-09-21 15:30:00 -07:00
             description: |
@@ -82,7 +85,7 @@ def test_event_with_duration():
     event = event_ics_from_yaml(
         parse_yaml(
             '''
-            name: Event of the Century
+            summary: Event of the Century
             begin: 2021-09-21 15:00:00 -07:00
             duration:
               minutes: 30
