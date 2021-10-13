@@ -1,6 +1,6 @@
 events:
-  - name: Another Event
-    begin: 2021-09-21 10:00-07:00
-    end: 2021-09-21 12:00-07:00
+  - summary: Another Event
+    begin: 2021-09-21 10:00:00 -07:00
+    end: 2021-09-21 12:00:00 -07:00
     description: |
       A two hour long event.
