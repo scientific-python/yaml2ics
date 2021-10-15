@@ -19,7 +19,7 @@ interval_type = {
 }
 
 
-def event_ics_from_yaml(event_yaml: dict) -> str:
+def event_from_yaml(event_yaml: dict) -> ics.Event:
     d = event_yaml
     repeat = d.pop('repeat', None)
 
@@ -68,32 +68,30 @@ def event_ics_from_yaml(event_yaml: dict) -> str:
         rrule_dtstart = rrule_dtstart + 'Z'
         rrule_rrule = [line for line in rrule_lines if line.startswith('RRULE')][0]
 
-        event_lines = str(event).split('\r\n')
+        event.extra.append(ics.ContentLine(rrule_rrule))
 
-        # Splice in the rrule
-        out = []
-        for line in event_lines:
-            out.append(line)
-
-            if line.startswith('DTSTART'):
-                out.append(rrule_rrule + 'Z')
-    else:
-        out = str(event).split('\r\n')
-
-    now_utc = datetime.utcnow()
-    utc_stamp = now_utc.isoformat(
-        timespec='seconds'
-    ).replace('-', '').replace(':', '') + 'Z'
-    out.insert(-1, f'DTSTAMP:{utc_stamp}')
-
-    return '\r\n'.join(out)
+    event.dtstamp = datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
+    return event
 
 
-def events_to_calendar_ics(events: dict) -> str:
+def events_to_calendar(events: list) -> str:
     cal = ics.Calendar()
     for event in events:
-        cal.events.add(event)
-    return str(cal)
+        cal.events.append(event)
+    return cal
+
+def files_to_calendar(files: list) -> ics.Calendar:
+    """'main' function: list of files to our result"""
+    all_events = [ ]
+    for f in files:
+        if hasattr(f, 'read'):
+            calendar_yaml = yaml.load(f.read(), Loader=yaml.FullLoader)
+        else:
+            calendar_yaml = yaml.load(open(f, 'r'), Loader=yaml.FullLoader)
+        for event in calendar_yaml['events']:
+            all_events.append(event_from_yaml(event))
+    calendar = events_to_calendar(all_events)
+    return calendar
 
 
 if __name__ == '__main__':
@@ -107,10 +105,6 @@ if __name__ == '__main__':
             print(f'Error: {f} is not a file')
             sys.exit(-1)
 
-    all_events = []
-    for f in files:
-        calendar_yaml = yaml.load(open(f, 'r'), Loader=yaml.FullLoader)
-        for event in calendar_yaml['events']:
-            all_events.append(event_ics_from_yaml(event))
+    calendar = files_to_calendar(files)
 
-    print(events_to_calendar_ics(all_events))
+    print(calendar.serialize())
