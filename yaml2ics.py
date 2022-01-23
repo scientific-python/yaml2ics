@@ -43,16 +43,16 @@ def event_from_yaml(event_yaml: dict) -> ics.Event:
         interval = repeat['interval']
 
         if not len(interval) == 1:
-            print('Error: interval must specify seconds, minutes, hours, days, weeks, months, or years only')
+            print('Error: interval must specify seconds, minutes, hours, days, weeks, months, or years only', file=sys.stderr)
             sys.exit(-1)
 
         interval_measure = list(interval.keys())[0]
         if interval_measure not in interval_type:
-            print('Error: expected interval to be specified in seconds, minutes, hours, days, weeks, months, or years only')
+            print('Error: expected interval to be specified in seconds, minutes, hours, days, weeks, months, or years only', file=sys.stderr)
             sys.exit(-1)
 
         if 'until' not in repeat:
-            print('Error: must specify end date for repeating events')
+            print('Error: must specify end date for repeating events', file=sys.stderr)
             sys.exit(-1)
 
         event.end = d.get('end', None)
@@ -102,7 +102,7 @@ if __name__ == '__main__':
     files = sys.argv[1:]
     for f in files:
         if not os.path.isfile(f):
-            print(f'Error: {f} is not a file')
+            print(f'Error: {f} is not a file', file=sys.stderr)
             sys.exit(-1)
 
     calendar = files_to_calendar(files)
