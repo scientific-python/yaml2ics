@@ -67,8 +67,10 @@ def event_from_yaml(event_yaml: dict) -> ics.Event:
         rrule_dtstart = [line for line in rrule_lines if line.startswith('DTSTART')][0]
         rrule_dtstart = rrule_dtstart + 'Z'
         rrule_rrule = [line for line in rrule_lines if line.startswith('RRULE')][0]
-
-        event.extra.append(ics.ContentLine(rrule_rrule))
+        event.extra.append(ics.ContentLine(
+            name=rrule_rrule.split(':', 1)[0],
+            value=rrule_rrule.split(':', 1)[1],
+            ))
 
     event.dtstamp = datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
     return event
