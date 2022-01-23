@@ -1,11 +1,12 @@
 import yaml
 import sys
 import os
-from datetime import datetime
+from datetime import datetime, tzinfo
 
 import ics
 import dateutil
 import dateutil.rrule
+from dateutil.tz import gettz
 
 
 interval_type = {
@@ -19,7 +20,7 @@ interval_type = {
 }
 
 
-def event_from_yaml(event_yaml: dict) -> ics.Event:
+def event_from_yaml(event_yaml: dict, tz: tzinfo=None) -> ics.Event:
     d = event_yaml
     repeat = d.pop('repeat', None)
 
@@ -73,6 +74,8 @@ def event_from_yaml(event_yaml: dict) -> ics.Event:
             ))
 
     event.dtstamp = datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
+    if tz and event.floating:
+        event.replace_timezone(tz)
     return event
 
 
@@ -85,13 +88,18 @@ def events_to_calendar(events: list) -> str:
 def files_to_calendar(files: list) -> ics.Calendar:
     """'main' function: list of files to our result"""
     all_events = [ ]
+    name = None
     for f in files:
         if hasattr(f, 'read'):
             calendar_yaml = yaml.load(f.read(), Loader=yaml.FullLoader)
         else:
             calendar_yaml = yaml.load(open(f, 'r'), Loader=yaml.FullLoader)
+        tz = None
+        if 'meta' in calendar_yaml:
+            if 'tz' in calendar_yaml['meta']:
+                tz = gettz(calendar_yaml['meta']['tz'])
         for event in calendar_yaml['events']:
-            all_events.append(event_from_yaml(event))
+            all_events.append(event_from_yaml(event, tz=tz))
     calendar = events_to_calendar(all_events)
     return calendar
 
