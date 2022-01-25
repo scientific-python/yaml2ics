@@ -56,7 +56,8 @@ def event_from_yaml(event_yaml: dict, tz: tzinfo=None) -> ics.Event:
             print('Error: must specify end date for repeating events', file=sys.stderr)
             sys.exit(-1)
 
-        event.end = d.get('end', None)
+        # This causes zero-length events, I guess overriding whatever duration might have been specified.
+        #event.end = d.get('end', None)
 
         rrule = dateutil.rrule.rrule(
             freq=interval_type[interval_measure],
