@@ -60,7 +60,8 @@ def test_rrule():
         )
     )
     event_str = event.serialize()
-    assert 'DTEND' not in event_str
+    # DTEND exists and is the next day, calendar tools import this
+    # correctly as being a one-day event
     assert 'RRULE:FREQ=YEARLY;UNTIL=20300422T000000' in event_str
 
 

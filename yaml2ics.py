@@ -75,7 +75,7 @@ def event_from_yaml(event_yaml: dict, tz: tzinfo=None) -> ics.Event:
             ))
 
     event.dtstamp = datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
-    if tz and event.floating:
+    if tz and event.floating and not event.all_day:
         event.replace_timezone(tz)
     return event
 

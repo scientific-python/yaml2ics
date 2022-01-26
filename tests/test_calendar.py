@@ -45,6 +45,9 @@ def test_calendar_default_timezone():
               - summary: February 1
                 begin: 2022-02-01 00:00:00 +02:00
                 duration: {hours: 1}
+
+              - summary: Earth day (all day)
+                begin: 2022-04-22
             '''
         ))]
     )
