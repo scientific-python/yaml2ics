@@ -1,5 +1,5 @@
-meta:
-  tz: America/Los_Angeles
+name: Test Calendar
+timezone: America/Los_Angeles
 
 events:
   - summary: Event of the Century
