@@ -97,18 +97,26 @@ def events_to_calendar(events: list) -> str:
 def files_to_calendar(files: list) -> ics.Calendar:
     """'main' function: list of files to our result"""
     all_events = []
+    name = None
+
     for f in files:
         if hasattr(f, "read"):
             calendar_yaml = yaml.load(f.read(), Loader=yaml.FullLoader)
         else:
             calendar_yaml = yaml.load(open(f, "r"), Loader=yaml.FullLoader)
-        tz = None
-        if "meta" in calendar_yaml:
-            if "tz" in calendar_yaml["meta"]:
-                tz = gettz(calendar_yaml["meta"]["tz"])
-        for event in calendar_yaml["events"]:
+        tz = calendar_yaml.get("timezone", None)
+        if tz is not None:
+            tz = gettz(tz)
+        for event in calendar_yaml.get("events", []):
             all_events.append(event_from_yaml(event, tz=tz))
+
+        # We can only provide one calendar name, so we'll
+        # keep the last one we find
+        name = calendar_yaml.get("name", name)
+
     calendar = events_to_calendar(all_events)
+    if name is not None:
+        calendar.extra.append(ics.ContentLine(name="NAME", value=name))
     return calendar
 
 

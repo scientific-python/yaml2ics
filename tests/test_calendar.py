@@ -5,6 +5,10 @@ import textwrap
 from yaml2ics import events_to_calendar, files_to_calendar
 
 
+def iowrap(s):
+    return io.StringIO(textwrap.dedent(s))
+
+
 def test_calendar_structure():
     cal = events_to_calendar([])
     cal_str = cal.serialize()
@@ -15,16 +19,14 @@ def test_calendar_structure():
 def test_calendar_event():
     cal = files_to_calendar(
         [
-            io.StringIO(
-                textwrap.dedent(
-                    """
+            iowrap(
+                """
             events:
               - summary: Earth Day
                 begin: 2021-04-22
                 url: https://earthday.org
                 location: Earth
             """
-                )
             )
         ]
     )
@@ -37,11 +39,9 @@ def test_calendar_event():
 def test_calendar_default_timezone():
     cal = files_to_calendar(
         [
-            io.StringIO(
-                textwrap.dedent(
-                    """
-            meta:
-              tz: Europe/Helsinki
+            iowrap(
+                """
+            timezone: Europe/Helsinki
 
             events:
               - summary: New year's day
@@ -55,7 +55,6 @@ def test_calendar_default_timezone():
               - summary: Earth day (all day)
                 begin: 2022-04-22
             """
-                )
             )
         ]
     )
@@ -76,3 +75,23 @@ def test_calendar_default_timezone():
     # 1 Feb midnight
     assert "DTSTART:20211231T220000Z"  # 1 jan
     assert "DTSTART:20220131T220000Z"  # 1 feb
+
+
+def test_calendar_name():
+    cal = files_to_calendar(
+        [
+            iowrap(
+                """
+            name: My First Calendar
+            """
+            ),
+            iowrap(
+                """
+            name: My Second Calendar
+            """
+            ),
+        ]
+    )
+    cal_str = cal.serialize()
+    assert "NAME:My Second Calendar" in cal_str
+    assert cal_str.count("NAME:") == 1
