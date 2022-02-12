@@ -95,3 +95,25 @@ def test_calendar_name():
     cal_str = cal.serialize()
     assert "NAME:My Second Calendar" in cal_str
     assert cal_str.count("NAME:") == 1
+
+
+def test_repeat():
+    cal = files_to_calendar(
+        [
+            iowrap(
+                """
+            events:
+                - summary: Repeating Event
+                  begin: 2022-02-11
+                  repeat:
+                    interval:
+                      days: 5
+                    until: 2022-02-21
+            """
+            )
+        ]
+    )
+    cal_str = cal.serialize()
+    rrule = [line for line in cal_str.split("\n") if line.startswith("RRULE")][0]
+    assert "FREQ=DAILY" in rrule
+    assert "INTERVAL=5" in rrule
