@@ -66,6 +66,7 @@ def event_from_yaml(event_yaml: dict, tz: tzinfo = None) -> ics.Event:
 
         rrule = dateutil.rrule.rrule(
             freq=interval_type[interval_measure],
+            interval=interval[interval_measure],
             until=repeat.get("until"),
             dtstart=d["begin"],
         )
