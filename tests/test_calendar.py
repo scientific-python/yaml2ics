@@ -96,6 +96,8 @@ def test_calendar_name():
     assert "NAME:My Second Calendar" in cal_str
     assert cal_str.count("NAME:") == 1
 
+    assert "X-WR-CALNAME:My Second Calendar" in cal_str
+
 
 def test_repeat():
     cal = files_to_calendar(

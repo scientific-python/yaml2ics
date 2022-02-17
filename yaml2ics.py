@@ -118,6 +118,7 @@ def files_to_calendar(files: list) -> ics.Calendar:
     calendar = events_to_calendar(all_events)
     if name is not None:
         calendar.extra.append(ics.ContentLine(name="NAME", value=name))
+        calendar.extra.append(ics.ContentLine(name="X-WR-CALNAME", value=name))
     return calendar
 
 
