@@ -94,9 +94,10 @@ def test_calendar_name():
     )
     cal_str = cal.serialize()
     assert "NAME:My Second Calendar" in cal_str
-    assert cal_str.count("NAME:") == 1
+    assert cal_str.count("\nNAME:") == 1
 
     assert "X-WR-CALNAME:My Second Calendar" in cal_str
+    assert cal_str.count("\nX-WR-CALNAME:") == 1
 
 
 def test_repeat():
