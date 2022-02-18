@@ -95,8 +95,8 @@ def events_to_calendar(events: list) -> str:
     return cal
 
 
-def files_to_calendar(files: list) -> ics.Calendar:
-    """'main' function: list of files to our result"""
+def files_to_events(files: list) -> (ics.Calendar, str):
+    """Process files to a list of events"""
     all_events = []
     name = None
 
@@ -108,12 +108,25 @@ def files_to_calendar(files: list) -> ics.Calendar:
         tz = calendar_yaml.get("timezone", None)
         if tz is not None:
             tz = gettz(tz)
+        if "include" in calendar_yaml:
+            included_events, _name = files_to_events(
+                os.path.join(os.path.dirname(f), newfile)
+                for newfile in calendar_yaml["include"]
+            )
+            all_events.extend(included_events)
         for event in calendar_yaml.get("events", []):
             all_events.append(event_from_yaml(event, tz=tz))
 
         # We can only provide one calendar name, so we'll
         # keep the last one we find
         name = calendar_yaml.get("name", name)
+
+    return all_events, name
+
+
+def files_to_calendar(files: list) -> ics.Calendar:
+    """'main function: list of files to our result"""
+    all_events, name = files_to_events(files)
 
     calendar = events_to_calendar(all_events)
     if name is not None:
