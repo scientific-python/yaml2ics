@@ -1,3 +1,9 @@
+"""
+yaml2ics
+========
+
+CLI to convert yaml into ics.
+"""
 import os
 import sys
 from datetime import datetime, tzinfo
@@ -135,7 +141,7 @@ def files_to_calendar(files: list) -> ics.Calendar:
     return calendar
 
 
-if __name__ == "__main__":
+def main():
     if len(sys.argv) < 2:
         print("Usage: yaml2ics.py FILE1.yaml FILE2.yaml ...")
         sys.exit(-1)
@@ -149,3 +155,7 @@ if __name__ == "__main__":
     calendar = files_to_calendar(files)
 
     print(calendar.serialize())
+
+
+if __name__ == "__main__":
+    main()
