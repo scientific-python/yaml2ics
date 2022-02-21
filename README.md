@@ -2,6 +2,9 @@
 
 # YAML to iCalendar (ics)
 
+| WARNING: this project is still in beta. Beware of breaking changes! |
+|---------------------------------------------------------------------|
+
 Convert YAML files to .ics files which can be imported into other
 calendar applications.
 
@@ -84,6 +87,9 @@ pytest
 files (and enforced by CI). To install the git hooks, use `pre-commit install`.
 To run the tests/auto-formatting manually, use `pre-commit run
 --all-files`.
+
+Releases are automatically pushed on PyPi by the CI when pushing a tag
+following `*.*`.
 
 ## See also
 
