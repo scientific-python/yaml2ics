@@ -1,0 +1,1 @@
+https://github.com/ics-py/ics-py/archive/refs/heads/main.zip

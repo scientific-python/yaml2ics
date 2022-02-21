@@ -13,7 +13,7 @@ classifiers = ["License :: OSI Approved :: MIT License"]
 dynamic = ["description"]
 
 dependencies = [
-    "ics @ https://github.com/ics-py/ics-py/archive/refs/heads/main.zip",
+#    "ics >=0.8",
     "python-dateutil",
     "pyyaml",
 ]
