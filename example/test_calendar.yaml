@@ -37,3 +37,16 @@ events:
         # seconds, minutes, hours, days, weeks, months, years
         years: 1
       until: 2030-04-22
+
+  # We can use a nice trick of YAML (anchors and references) to make a
+  # series of events that have the same template and only a small
+  # variation.
+  # The & is the anchor: it identifies this mapping as 'template-name'
+  - &template-name
+    summary: Template event
+    begin: 2022-02-21 14:00:00
+    duration: {minutes: 60}
+  # This uses the 'template-name' template, and then overrides certain
+  # fields: in this case, the 'begin'.
+  - <<: *template-name
+    begin: 2022-02-28 14:00:00
