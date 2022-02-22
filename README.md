@@ -51,17 +51,17 @@ explanations.  Below is a minimal template that shows the basic idea:
 
 ```yaml
 name: Calendar Name
-timezone: Europe/Helsinki  # default timezoene for events, optional
+timezone: Europe/Helsinki  # default timezone for events, optional
 
 events:
   - summary: The event title
     begin: 2021-09-21 15:00:00
     duration:
-	  minutes: 30
+      minutes: 30
     location: |
       https://meet.jit.si/example
     description: |
-	  In this meeting we will ...
+      In this meeting we will ...
 ```
 
 ## Contributing

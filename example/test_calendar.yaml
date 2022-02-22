@@ -1,9 +1,9 @@
 name: Test Calendar
 timezone: America/Los_Angeles
-# Include another list of events in with these.  Note you can also do
-# this from the command line.
-#include:
-#  - other_calender.ics
+# # Include another list of events in with these.  Note you can also do
+# # this from the command line.
+# include:
+#   - other_calender.ics
 
 events:
   - summary: Event of the Century
