@@ -90,8 +90,3 @@ To run the tests/auto-formatting manually, use `pre-commit run
 
 Releases are automatically pushed on PyPi by the CI when pushing a tag
 following `*.*`.
-
-## See also
-
-* https://github.com/priyeshpatel/yaml-to-ical - older (~2014) idea of
-  the same thing
