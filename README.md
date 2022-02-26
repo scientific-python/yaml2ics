@@ -69,12 +69,12 @@ events:
 Contributions are welcomed! This project is still in active development
 and should be considered beta.
 
-[flit](https://flit.readthedocs.io/en/latest/) is used to manage the project.
+To install the development version, fork the source of the project and make an
+editable install:
 
 ```
-pip install flit
 pip install -r requirements.txt  # temporary workaround for ics-py
-flit install -s  # make an editable/inplace installation
+pip install -e ".[test]"
 ```
 
 To test:
