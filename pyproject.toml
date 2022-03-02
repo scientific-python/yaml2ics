@@ -1,0 +1,37 @@
+[build-system]
+requires = ["flit_core >=3.3,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "yaml2ics"
+version = "0.1rc1"
+requires-python = ">=3.8"
+authors = [{name = "The Scientific Python Group"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = ["License :: OSI Approved :: BSD License"]
+dynamic = ["description"]
+
+dependencies = [
+#    "ics >=0.8",
+    "python-dateutil",
+    "pyyaml",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "black",
+    "pre-commit",
+    "flake8"
+]
+
+[project.scripts]
+yaml2ics = "yaml2ics:main"
+
+[project.urls]
+Home = "https://github.com/scientific-python/yaml2ics"
+Source = "https://github.com/scientific-python/yaml2ics"
+
+[tool.flit.sdist]
+exclude = ["tests/*"]
