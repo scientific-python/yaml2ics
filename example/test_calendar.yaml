@@ -15,6 +15,11 @@ events:
     location: |
       Office 224, Monolith Bldg, Office Block C
 
+  - summary: 15-minute meeting with timezone
+    timezone: America/New_York  # symbolic timezone offset
+    begin: 2021-09-23 15:00:00
+    end: 2021-09-23 15:30:00
+
   - summary: Half-an-hour meeting
     begin: 2021-09-23 15:00:00 -07:00  # explicit timezone offset
     end: 2021-09-23 15:30:00 -07:00    # explicit timezone offset
