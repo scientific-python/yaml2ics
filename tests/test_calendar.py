@@ -77,6 +77,41 @@ def test_calendar_default_timezone():
     assert "DTSTART:20220131T220000Z"  # 1 feb
 
 
+def test_calendar_event_different_timezone():
+    # This test is just like the one above, but with the timezone definition
+    # locations changed.
+    cal = files_to_calendar(
+        [
+            iowrap(
+                """
+            timezone: America/New_York
+
+            events:
+              - summary: New year's day
+                timezone: Europe/Helsinki
+                begin: 2022-01-01 00:00:00
+                duration: {hours: 1}
+            """
+            )
+        ]
+    )
+    cal_str = cal.serialize()
+    assert cal_str.startswith("BEGIN:VCALENDAR")
+    assert "SUMMARY:New year" in cal_str
+    # It is possible that the ics-py TZID string changes, but hopefully this
+    # substring is fairly safe to test against.
+    assert "Europe/Helsinki:20220101T000000" in cal_str
+    assert "America/New_York" not in cal_str
+
+    # Test again by normalizing to UTC.  Helsinki is two hours ahead, so the
+    # times should be 22:00:00.
+    cal.normalize(datetime.timezone.utc)
+    cal_norm_str = cal.serialize()  # noqa: F841
+    # 1 Feb midnight
+    assert "DTSTART:20211231T220000Z"  # 1 jan
+    assert "DTSTART:20220131T220000Z"  # 1 feb
+
+
 def test_calendar_name():
     cal = files_to_calendar(
         [
