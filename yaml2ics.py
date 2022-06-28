@@ -90,6 +90,15 @@ def event_from_yaml(event_yaml: dict, tz: tzinfo = None) -> ics.Event:
             )
         )
 
+        if "except_on" in repeat:
+            for exdate in repeat.get("except_on"):
+                event.extra.append(
+                    ics.ContentLine(
+                        name="EXDATE",
+                        value=datetime.strftime(exdate, "%Y%m%d"),
+                    )
+                )
+
     event.dtstamp = datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
     if tz and event.floating and not event.all_day:
         event.replace_timezone(tz)
