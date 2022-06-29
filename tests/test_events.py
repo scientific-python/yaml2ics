@@ -67,6 +67,7 @@ def test_rrule():
     assert "EXDATE:20220422" in event_str
     assert "EXDATE:20260422" in event_str
 
+
 def test_event_with_time_range():
     event = event_from_yaml(
         parse_yaml(
