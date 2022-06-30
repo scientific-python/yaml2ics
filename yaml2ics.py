@@ -92,7 +92,8 @@ def event_from_yaml(event_yaml: dict, tz: tzinfo = None) -> ics.Event:
 
         if "except_on" in repeat:
             exdate = map(
-                lambda exdate: datetime.strftime(exdate, "%Y%m%d"), repeat["except_on"]
+                lambda exdate: datetime.strftime(exdate, "%Y%m%dT%H%M%S"),
+                repeat["except_on"],
             )
             event.extra.append(
                 ics.ContentLine(
