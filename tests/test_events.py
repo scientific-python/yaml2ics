@@ -64,8 +64,7 @@ def test_rrule():
     # DTEND exists and is the next day, calendar tools import this
     # correctly as being a one-day event
     assert "RRULE:FREQ=YEARLY;UNTIL=20300422T000000" in event_str
-    assert "EXDATE:20220422" in event_str
-    assert "EXDATE:20260422" in event_str
+    assert "EXDATE:20220422,20260422" in event_str
 
 
 def test_event_with_time_range():
