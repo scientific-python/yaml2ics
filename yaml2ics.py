@@ -4,9 +4,9 @@ yaml2ics
 
 CLI to convert yaml into ics.
 """
+import datetime
 import os
 import sys
-from datetime import datetime, tzinfo
 
 import dateutil
 import dateutil.rrule
@@ -25,7 +25,14 @@ interval_type = {
 }
 
 
-def event_from_yaml(event_yaml: dict, tz: tzinfo = None) -> ics.Event:
+def strfexception(exdate):
+    if isinstance(exdate, datetime.datetime):
+        return datetime.datetime.strftime(exdate, "%Y%m%dT%H%M%S")
+    elif isinstance(exdate, datetime.date):
+        return datetime.datetime.strftime(exdate, "%Y%m%d")
+
+
+def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
     d = event_yaml
     repeat = d.pop("repeat", None)
     if "timezone" in d:
@@ -90,7 +97,28 @@ def event_from_yaml(event_yaml: dict, tz: tzinfo = None) -> ics.Event:
             )
         )
 
-    event.dtstamp = datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
+        if "except_on" in repeat:
+            exdates = map(
+                lambda exdate: strfexception(exdate),
+                repeat["except_on"],
+            )
+            if tz:
+                event.extra.append(
+                    ics.ContentLine(
+                        name="EXDATE",
+                        params={"TZID": [str(ics.Timezone.from_tzinfo(tz))]},
+                        value=",".join(exdates),
+                    )
+                )
+            else:
+                event.extra.append(
+                    ics.ContentLine(
+                        name="EXDATE",
+                        value=",".join(exdates),
+                    )
+                )
+
+    event.dtstamp = datetime.datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
     if tz and event.floating and not event.all_day:
         event.replace_timezone(tz)
     return event
