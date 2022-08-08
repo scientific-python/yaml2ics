@@ -73,7 +73,6 @@ To install the development version, fork the source of the project and make an
 editable install:
 
 ```
-pip install -r requirements.txt  # temporary workaround for ics-py
 pip install -e ".[test]"
 ```
 
