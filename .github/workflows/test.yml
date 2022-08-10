@@ -31,4 +31,4 @@ jobs:
 
       - name: Test
         run: |
-          pytest --doctest-modules --durations=10 --pyargs yaml2ics
+          pytest --doctest-modules --durations=10
