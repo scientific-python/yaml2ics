@@ -7,7 +7,7 @@ timezone: America/Los_Angeles
 
 events:
   - summary: Event of the Century
-    begin: 2021-09-21 15:00:00         # uses default timezone above
+    begin: 2021-09-21 15:00:00 # uses default timezone above
     duration:
       minutes: 30
     description: |
@@ -16,22 +16,22 @@ events:
       Office 224, Monolith Bldg, Office Block C
 
   - summary: 15-minute meeting with timezone
-    timezone: America/New_York  # symbolic timezone offset
+    timezone: America/New_York # symbolic timezone offset
     begin: 2021-09-23 15:00:00
     end: 2021-09-23 15:30:00
 
   - summary: Half-an-hour meeting
-    begin: 2021-09-23 15:00:00 -07:00  # explicit timezone offset
-    end: 2021-09-23 15:30:00 -07:00    # explicit timezone offset
+    begin: 2021-09-23 15:00:00 -07:00 # explicit timezone offset
+    end: 2021-09-23 15:30:00 -07:00 # explicit timezone offset
 
   - summary: Recurring event
     begin: 2022-02-21 15:00:00
-    duration: {minutes: 60}
+    duration: { minutes: 60 }
     repeat:
       interval:
         # seconds, minutes, hours, days, weeks, months, years
         weeks: 1
-      until: 2022-12-31  # required
+      until: 2022-12-31 # required
 
   # All-day event
   - summary: Earth Day

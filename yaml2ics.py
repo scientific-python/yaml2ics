@@ -112,7 +112,7 @@ def files_to_events(files: list) -> (ics.Calendar, str):
         if hasattr(f, "read"):
             calendar_yaml = yaml.load(f.read(), Loader=yaml.FullLoader)
         else:
-            calendar_yaml = yaml.load(open(f, "r"), Loader=yaml.FullLoader)
+            calendar_yaml = yaml.load(open(f), Loader=yaml.FullLoader)
         tz = calendar_yaml.get("timezone", None)
         if tz is not None:
             tz = gettz(tz)

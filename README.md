@@ -3,12 +3,13 @@
 # YAML to iCalendar (ics)
 
 | WARNING: this project is still in beta. Beware of breaking changes! |
-|---------------------------------------------------------------------|
+| ------------------------------------------------------------------- |
 
 Convert YAML files to .ics files which can be imported into other
 calendar applications.
 
 Features include:
+
 - Converting single .yaml files, or combining multiple into one .ics
   file.
 - ics fields: name, summary, description, location, timezone, repeat
@@ -47,11 +48,11 @@ python yaml2ics.py example/test_calendar.yaml example/another_calendar.yaml
 ## Syntax
 
 Please see `example/test_calendar.yaml` for a full demo including
-explanations.  Below is a minimal template that shows the basic idea:
+explanations. Below is a minimal template that shows the basic idea:
 
 ```yaml
 name: Calendar Name
-timezone: Europe/Helsinki  # default timezone for events, optional
+timezone: Europe/Helsinki # default timezone for events, optional
 
 events:
   - summary: The event title
@@ -84,8 +85,7 @@ pytest
 
 [black](https://github.com/psf/black) and other linters are used to auto-format
 files (and enforced by CI). To install the git hooks, use `pre-commit install`.
-To run the tests/auto-formatting manually, use `pre-commit run
---all-files`.
+To run the tests/auto-formatting manually, use `pre-commit run --all-files`.
 
 Releases are automatically pushed on PyPi by the CI when pushing a tag
 following `*.*`.
