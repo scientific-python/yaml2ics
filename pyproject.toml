@@ -19,12 +19,8 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-test = [
-    "pytest",
-    "black",
-    "pre-commit",
-    "flake8"
-]
+test = ["pytest"]
+lint = ["pre-commit"]
 
 [project.scripts]
 yaml2ics = "yaml2ics:main"
