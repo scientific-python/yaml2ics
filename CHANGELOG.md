@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/scientific-python/yaml2ics/tree/HEAD)
+## [v0.1rc2](https://github.com/scientific-python/yaml2ics/tree/v0.1rc2)
 
-[Full Changelog](https://github.com/scientific-python/yaml2ics/compare/v0.1rc1...HEAD)
+[Full Changelog](https://github.com/scientific-python/yaml2ics/compare/v0.1rc1...v0.1rc2)
 
 **Closed issues:**
 
@@ -10,6 +10,7 @@
 
 **Merged pull requests:**
 
+- Add changelog [\#32](https://github.com/scientific-python/yaml2ics/pull/32) ([jarrodmillman](https://github.com/jarrodmillman))
 - Add release process notes [\#31](https://github.com/scientific-python/yaml2ics/pull/31) ([jarrodmillman](https://github.com/jarrodmillman))
 - Specify lower bounds on dependencies [\#30](https://github.com/scientific-python/yaml2ics/pull/30) ([jarrodmillman](https://github.com/jarrodmillman))
 - Improve CI testing [\#29](https://github.com/scientific-python/yaml2ics/pull/29) ([jarrodmillman](https://github.com/jarrodmillman))
