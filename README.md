@@ -24,13 +24,6 @@ Features include:
 pip install yaml2ics
 ```
 
-**Note:** due to a pending release of a dependency (`ics-py`), an additional
-step is required:
-
-```
-pip install -r requirements.txt
-```
-
 ## Usage
 
 To produce a calendar from a list of events:
@@ -86,6 +79,3 @@ pytest
 [black](https://github.com/psf/black) and other linters are used to auto-format
 files (and enforced by CI). To install the git hooks, use `pre-commit install`.
 To run the tests/auto-formatting manually, use `pre-commit run --all-files`.
-
-Releases are automatically pushed on PyPi by the CI when pushing a tag
-following `*.*`.
