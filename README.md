@@ -1,4 +1,6 @@
-![PyPI](https://img.shields.io/pypi/v/yaml2ics?style=for-the-badge)
+[![PyPI](https://img.shields.io/pypi/v/yaml2ics)](https://pypi.org/project/yaml2ics/)
+[![Test status](https://github.com/scientific-python/yaml2ics/workflows/test/badge.svg?branch=main)](https://github.com/scientific-python/yaml2ics/actions?query=workflow%3A%22test%22)
+[![Test coverage](https://codecov.io/gh/scientific-python/yaml2ics/branch/main/graph/badge.svg)](https://app.codecov.io/gh/scientific-python/yaml2ics/branch/main)
 
 # YAML to iCalendar (ics)
 
