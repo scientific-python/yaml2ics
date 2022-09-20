@@ -54,3 +54,9 @@ events:
         # seconds, minutes, hours, days, weeks, months, years
         years: 1
       until: 2030-04-22
+
+  # Event with custom RRULE
+  - summary: Another day
+    begin: 2021-04-22
+    ics: |
+      RRULE:FREQ=YEARLY;UNTIL=20280422T000000

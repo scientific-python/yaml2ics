@@ -126,3 +126,19 @@ def test_event_with_duration():
     assert "DURATION:PT30M" in event_str
     assert "DTEND" not in event_str
     assert "DTSTART" in event_str
+
+
+def test_event_with_custom_ics():
+    event = event_from_yaml(
+        parse_yaml(
+            """
+            summary: Earth Day
+            begin: 2021-04-22
+            url: https://earthday.org
+            ics: |
+              RRULE:FREQ=YEARLY;UNTIL=20280422T000000
+            """
+        )
+    )
+    event_str = event.serialize()
+    assert "RRULE:FREQ=YEARLY;UNTIL=20280422T000000" in event_str
