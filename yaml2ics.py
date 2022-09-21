@@ -35,6 +35,8 @@ def strfexception(exdate):
 def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
     d = event_yaml
     repeat = d.pop("repeat", None)
+    ics_custom = d.pop("ics", None)
+
     if "timezone" in d:
         tz = gettz(d.pop("timezone"))
 
@@ -121,6 +123,17 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
     event.dtstamp = datetime.datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
     if tz and event.floating and not event.all_day:
         event.replace_timezone(tz)
+
+    if ics_custom:
+        for line in ics_custom.split("\n"):
+            if ":" not in line:
+                raise RuntimeError(
+                    f"Invalid custom ICS (expected `fieldname:value`):\n  {line}"
+                )
+
+            ruletype, content = line.split(":", maxsplit=1)
+            event.extra.append(ics.ContentLine(name=ruletype, value=content))
+
     return event
 
 
