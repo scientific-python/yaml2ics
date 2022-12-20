@@ -33,7 +33,7 @@ events:
         weeks: 1
       until: 2022-12-31 # required
 
-  - summary: Recurring event with exception
+  - summary: Recurring event with exception and additional date
     begin: 2022-07-01 10:00:00
     duration: { minutes: 60 }
     repeat:
@@ -44,6 +44,8 @@ events:
       except_on:
         - 2022-07-13
         - 2022-07-14 06:00:00
+      also_on:
+        - 2022-12-24 06:00:00
 
   # All-day event
   - summary: Earth Day

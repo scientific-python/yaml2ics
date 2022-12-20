@@ -69,7 +69,7 @@ def test_exception():
     event = event_from_yaml(
         parse_yaml(
             """
-            summary: Recurring event with exception
+            summary: Recurring event with exception and additional date
             timezone: America/Los_Angeles
             begin: 2022-07-01 10:00:00
             duration: {minutes: 60}
@@ -80,6 +80,8 @@ def test_exception():
               except_on:
                 - 2022-07-13
                 - 2022-07-14 06:00:00
+              also_on:
+                - 2022-12-24 06:00:00
             """
         )
     )
@@ -90,6 +92,7 @@ def test_exception():
         "EXDATE;TZID=/ics.py/2020.1/America/Los_Angeles:20220713,20220714T060000"
         in event_str
     )
+    assert "RDATE;TZID=/ics.py/2020.1/America/Los_Angeles:20221224T060000" in event_str
 
 
 def test_event_with_time_range():

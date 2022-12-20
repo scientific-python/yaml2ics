@@ -25,11 +25,34 @@ interval_type = {
 }
 
 
-def strfexception(exdate):
-    if isinstance(exdate, datetime.datetime):
-        return datetime.datetime.strftime(exdate, "%Y%m%dT%H%M%S")
-    elif isinstance(exdate, datetime.date):
-        return datetime.datetime.strftime(exdate, "%Y%m%d")
+def datetime2utc(date):
+    if isinstance(date, datetime.datetime):
+        return datetime.datetime.strftime(date, "%Y%m%dT%H%M%S")
+    elif isinstance(date, datetime.date):
+        return datetime.datetime.strftime(date, "%Y%m%d")
+
+
+# See RFC2445, 4.8.5 REcurrence Component Properties
+# This function can be used to add a list of e.g. exception dates (EXDATE) or recurrence dates (RDATE)
+# to a reoccurring event
+def add_recurrence_property(
+    event: ics.Event, property_name, dates: map, tz: datetime.tzinfo = None
+):
+    if tz:
+        event.extra.append(
+            ics.ContentLine(
+                name=property_name,
+                params={"TZID": [str(ics.Timezone.from_tzinfo(tz))]},
+                value=",".join(dates),
+            )
+        )
+    else:
+        event.extra.append(
+            ics.ContentLine(
+                name=property_name,
+                value=",".join(dates),
+            )
+        )
 
 
 def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
@@ -101,24 +124,17 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
 
         if "except_on" in repeat:
             exdates = map(
-                lambda exdate: strfexception(exdate),
+                lambda exdate: datetime2utc(exdate),
                 repeat["except_on"],
             )
-            if tz:
-                event.extra.append(
-                    ics.ContentLine(
-                        name="EXDATE",
-                        params={"TZID": [str(ics.Timezone.from_tzinfo(tz))]},
-                        value=",".join(exdates),
-                    )
-                )
-            else:
-                event.extra.append(
-                    ics.ContentLine(
-                        name="EXDATE",
-                        value=",".join(exdates),
-                    )
-                )
+            add_recurrence_property(event, "EXDATE", exdates, tz)
+
+        if "also_on" in repeat:
+            rdates = map(
+                lambda rdate: datetime2utc(rdate),
+                repeat["also_on"],
+            )
+            add_recurrence_property(event, "RDATE", rdates, tz)
 
     event.dtstamp = datetime.datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
     if tz and event.floating and not event.all_day:
