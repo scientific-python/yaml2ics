@@ -38,21 +38,13 @@ def datetime2utc(date):
 def add_recurrence_property(
     event: ics.Event, property_name, dates: map, tz: datetime.tzinfo = None
 ):
-    if tz:
-        event.extra.append(
-            ics.ContentLine(
-                name=property_name,
-                params={"TZID": [str(ics.Timezone.from_tzinfo(tz))]},
-                value=",".join(dates),
-            )
+    event.extra.append(
+        ics.ContentLine(
+            name=property_name,
+            params={"TZID": [str(ics.Timezone.from_tzinfo(tz))]} if tz else None,
+            value=",".join(dates),
         )
-    else:
-        event.extra.append(
-            ics.ContentLine(
-                name=property_name,
-                value=",".join(dates),
-            )
-        )
+    )
 
 
 def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
@@ -123,17 +115,11 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
         )
 
         if "except_on" in repeat:
-            exdates = map(
-                lambda exdate: datetime2utc(exdate),
-                repeat["except_on"],
-            )
+            exdates = [datetime2utc(rdate) for rdate in repeat["except_on"]]
             add_recurrence_property(event, "EXDATE", exdates, tz)
 
         if "also_on" in repeat:
-            rdates = map(
-                lambda rdate: datetime2utc(rdate),
-                repeat["also_on"],
-            )
+            rdates = [datetime2utc(rdate) for rdate in repeat["also_on"]]
             add_recurrence_property(event, "RDATE", rdates, tz)
 
     event.dtstamp = datetime.datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
