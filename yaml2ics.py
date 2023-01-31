@@ -33,8 +33,8 @@ def datetime2utc(date):
 
 
 # See RFC2445, 4.8.5 REcurrence Component Properties
-# This function can be used to add a list of e.g. exception dates (EXDATE) or recurrence dates (RDATE)
-# to a reoccurring event
+# This function can be used to add a list of e.g. exception dates (EXDATE) or
+# recurrence dates (RDATE) to a reoccurring event
 def add_recurrence_property(
     event: ics.Event, property_name, dates: map, tz: datetime.tzinfo = None
 ):
@@ -76,7 +76,8 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
 
         if not len(interval) == 1:
             print(
-                "Error: interval must specify seconds, minutes, hours, days, weeks, months, or years only",
+                "Error: interval must specify seconds, minutes, hours, days, "
+                "weeks, months, or years only",
                 file=sys.stderr,
             )
             sys.exit(-1)
@@ -84,7 +85,8 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
         interval_measure = list(interval.keys())[0]
         if interval_measure not in interval_type:
             print(
-                "Error: expected interval to be specified in seconds, minutes, hours, days, weeks, months, or years only",
+                "Error: expected interval to be specified in seconds, minutes, "
+                "hours, days, weeks, months, or years only",
                 file=sys.stderr,
             )
             sys.exit(-1)
@@ -93,7 +95,8 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
             print("Error: must specify end date for repeating events", file=sys.stderr)
             sys.exit(-1)
 
-        # This causes zero-length events, I guess overriding whatever duration might have been specified.
+        # This causes zero-length events, I guess overriding whatever duration
+        # might have been specified
         # event.end = d.get('end', None)
 
         rrule = dateutil.rrule.rrule(
