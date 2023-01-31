@@ -39,3 +39,6 @@ Source = "https://github.com/scientific-python/yaml2ics"
 
 [tool.flit.sdist]
 exclude = ["tests/*"]
+
+[tool.ruff]
+select = ["F", "E", "W", "I", "UP"]
