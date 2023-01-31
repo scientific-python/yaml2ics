@@ -60,5 +60,5 @@ events:
   # Event with custom RRULE
   - summary: Another day
     begin: 2021-04-22
-    ics: |-
+    ics: |
       RRULE:FREQ=YEARLY;UNTIL=20280422T000000
