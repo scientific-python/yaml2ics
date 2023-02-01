@@ -75,25 +75,20 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
         interval = repeat["interval"]
 
         if not len(interval) == 1:
-            print(
+            raise RuntimeError(
                 "Error: interval must specify seconds, minutes, hours, days, "
-                "weeks, months, or years only",
-                file=sys.stderr,
+                "weeks, months, or years only"
             )
-            sys.exit(-1)
 
         interval_measure = list(interval.keys())[0]
         if interval_measure not in interval_type:
-            print(
+            raise RuntimeError(
                 "Error: expected interval to be specified in seconds, minutes, "
                 "hours, days, weeks, months, or years only",
-                file=sys.stderr,
             )
-            sys.exit(-1)
 
         if "until" not in repeat:
-            print("Error: must specify end date for repeating events", file=sys.stderr)
-            sys.exit(-1)
+            raise RuntimeError("Error: must specify end date for " "repeating events")
 
         # This causes zero-length events, I guess overriding whatever duration
         # might have been specified
@@ -131,6 +126,8 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
 
     if ics_custom:
         for line in ics_custom.split("\n"):
+            if not line:
+                continue
             if ":" not in line:
                 raise RuntimeError(
                     f"Invalid custom ICS (expected `fieldname:value`):\n  {line}"
@@ -191,19 +188,21 @@ def files_to_calendar(files: list) -> ics.Calendar:
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: yaml2ics.py FILE1.yaml FILE2.yaml ...")
-        sys.exit(-1)
+        raise RuntimeError("Usage: yaml2ics.py FILE1.yaml FILE2.yaml ...")
 
     files = sys.argv[1:]
     for f in files:
         if not os.path.isfile(f):
-            print(f"Error: {f} is not a file", file=sys.stderr)
-            sys.exit(-1)
+            raise RuntimeError(f"Error: {f} is not a file")
 
     calendar = files_to_calendar(files)
 
     print(calendar.serialize())
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__":  # pragma: no cover
+    try:
+        main()
+    except Exception as e:
+        print(e, file=sys.stderr)
+        sys.exit(-1)
