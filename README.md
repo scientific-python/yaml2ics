@@ -78,6 +78,12 @@ To test:
 pytest
 ```
 
+Generate a coverage report with:
+
+```
+pytest --cov-report term-missing --cov yaml2ics
+```
+
 [black](https://github.com/psf/black) and other linters are used to auto-format
 files (and enforced by CI). To install the git hooks, use `pre-commit install`.
 To run the tests/auto-formatting manually, use `pre-commit run --all-files`.
