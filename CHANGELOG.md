@@ -1,5 +1,19 @@
 # Changelog
 
+## [v0.2](https://github.com/scientific-python/yaml2ics/tree/v0.2)
+
+[Full Changelog](https://github.com/scientific-python/yaml2ics/compare/v0.1...v0.2)
+
+**Merged pull requests:**
+
+- Update pre-commit hooks [\#53](https://github.com/scientific-python/yaml2ics/pull/53) ([jarrodmillman](https://github.com/jarrodmillman))
+- Update codecov [\#52](https://github.com/scientific-python/yaml2ics/pull/52) ([jarrodmillman](https://github.com/jarrodmillman))
+- Update pre-commit [\#50](https://github.com/scientific-python/yaml2ics/pull/50) ([jarrodmillman](https://github.com/jarrodmillman))
+- Increase coverage to 100% [\#48](https://github.com/scientific-python/yaml2ics/pull/48) ([stefanv](https://github.com/stefanv))
+- Switch from flake8 to ruff [\#47](https://github.com/scientific-python/yaml2ics/pull/47) ([stefanv](https://github.com/stefanv))
+- Flake8 migrated to GitHub [\#46](https://github.com/scientific-python/yaml2ics/pull/46) ([itrich](https://github.com/itrich))
+- Add possibility to add additional dates to recurring events [\#45](https://github.com/scientific-python/yaml2ics/pull/45) ([itrich](https://github.com/itrich))
+
 ## [v0.1](https://github.com/scientific-python/yaml2ics/tree/v0.1)
 
 [Full Changelog](https://github.com/scientific-python/yaml2ics/compare/v0.1rc3...v0.1)
