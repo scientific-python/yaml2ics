@@ -23,9 +23,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip wheel setuptools
           python -m pip install ".[test]"
-          pip list
+          python -m pip list
 
       - name: Generate coverage report
         run: |
           python -m pytest --cov=yaml2ics --doctest-modules --durations=20
-          codecov
+
+      - name: Upload to codecov
+        uses: codecov/codecov-action@v3
