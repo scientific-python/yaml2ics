@@ -186,6 +186,9 @@ def files_to_calendar(files: list) -> ics.Calendar:
     return calendar
 
 
+# `main` is separate from `cli` to facilitate testing.
+# The only difference being that `main` raises errors while
+# `cli` prints them and exits with errorcode 1
 def main():
     if len(sys.argv) < 2:
         raise RuntimeError("Usage: yaml2ics.py FILE1.yaml FILE2.yaml ...")
@@ -200,9 +203,13 @@ def main():
     print(calendar.serialize())
 
 
-if __name__ == "__main__":  # pragma: no cover
+def cli():
     try:
         main()
     except Exception as e:
         print(e, file=sys.stderr)
         sys.exit(-1)
+
+
+if __name__ == "__main__":  # pragma: no cover
+    cli()
