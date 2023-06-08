@@ -29,7 +29,9 @@ def datetime2utc(date):
     if isinstance(date, datetime.datetime):
         return datetime.datetime.strftime(date, "%Y%m%dT%H%M%S")
     elif isinstance(date, datetime.date):
-        return datetime.datetime.strftime(date, "%Y%m%d")
+        return datetime.datetime.strftime(date, "%Y%m%dT000000")
+    else:
+        raise RuntimeError(f"Unsure how to convert {date} to UTC")
 
 
 # See RFC2445, 4.8.5 REcurrence Component Properties
