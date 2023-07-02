@@ -7,6 +7,8 @@ __pycache__/
 
 # Distribution / packaging
 dist/
+build/
+yaml2ics.egg-info/
 
 # Unit test / coverage reports
 .pytest_cache/
