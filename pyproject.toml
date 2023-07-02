@@ -1,6 +1,6 @@
 [build-system]
-requires = ["flit_core >=3.7,<4"]
-build-backend = "flit_core.buildapi"
+requires = ["setuptools>=61.2"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "yaml2ics"
@@ -18,7 +18,7 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
 ]
-dynamic = ["description"]
+description = "CLI to convert yaml into ics."
 
 dependencies = [
     "ics == 0.8.0.dev0",
@@ -36,9 +36,6 @@ yaml2ics = "yaml2ics:cli"
 [project.urls]
 Home = "https://github.com/scientific-python/yaml2ics"
 Source = "https://github.com/scientific-python/yaml2ics"
-
-[tool.flit.sdist]
-exclude = ["tests/*"]
 
 [tool.ruff]
 line-length = 88
