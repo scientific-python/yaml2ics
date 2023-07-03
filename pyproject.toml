@@ -28,7 +28,7 @@ dependencies = [
 
 [project.optional-dependencies]
 test = ["pytest >= 7.3", "pytest-cov >= 4.0"]
-lint = ["pre-commit == 3.0"]
+lint = ["pre-commit == 3.3.3"]
 dev = ["changelist == 0.1"]
 
 [project.scripts]
