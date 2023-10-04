@@ -50,13 +50,6 @@ Example `version number`
 
       https://github.com/scientific-python/yaml2ics/tags
 
-- Publish on PyPi:
-
-      git clean -fxd
-      pip install -U build twine wheel
-      python -m build --sdist --wheel
-      twine upload -s dist/*
-
 - Update `version` in `pyproject.toml`.
 
 - Commit changes:
