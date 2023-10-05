@@ -86,10 +86,13 @@ def test_exception():
         )
     )
     event_str = event.serialize()
+    # Handle line overflow
+    event_str = event_str.replace(" ", "").replace("\n", "").replace("\r", "")
+
     # DTEND exists and is the next day, calendar tools import this
     # correctly as being a one-day event
     assert (
-        "EXDATE;TZID=/ics.py/2020.1/America/Los_Angeles:20220713,20220714T060000"
+        "EXDATE;TZID=/ics.py/2020.1/America/Los_Angeles:20220713T000000,20220714T060000"
         in event_str
     )
     assert "RDATE;TZID=/ics.py/2020.1/America/Los_Angeles:20221224T060000" in event_str

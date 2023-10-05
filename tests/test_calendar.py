@@ -112,6 +112,30 @@ def test_calendar_event_different_timezone():
     assert "DTSTART:20220131T220000Z"  # 1 feb
 
 
+def test_calendar_no_timezone():
+    """We default to UTC if no timezone is given."""
+    cal = files_to_calendar(
+        [
+            iowrap(
+                """
+            events:
+              - summary: Some new year's days
+                begin: 2022-01-01
+                repeat:
+                  interval:
+                    years: 1
+                  until: 2030-01-01
+                  except_on:
+                    - 2023-01-01
+            """
+            )
+        ]
+    )
+    cal_str = cal.serialize()
+    assert cal_str.startswith("BEGIN:VCALENDAR")
+    assert "UTC" in cal_str
+
+
 def test_calendar_name():
     cal = files_to_calendar(
         [
