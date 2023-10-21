@@ -12,6 +12,7 @@ import dateutil
 import dateutil.rrule
 import ics
 import yaml
+import requests
 from dateutil.tz import gettz
 
 interval_type = {
@@ -146,7 +147,7 @@ def events_to_calendar(events: list) -> str:
     return cal
 
 
-def files_to_events(files: list) -> (ics.Calendar, str):
+def files_to_events(files: list) -> (ics.Calendar, str, bool):
     """Process files to a list of events"""
     all_events = []
     name = None
@@ -156,6 +157,14 @@ def files_to_events(files: list) -> (ics.Calendar, str):
             calendar_yaml = yaml.load(f.read(), Loader=yaml.FullLoader)
         else:
             calendar_yaml = yaml.load(open(f), Loader=yaml.FullLoader)
+
+        external = calendar_yaml.get("ics", None)
+        if external is not None:
+            # This is an existing ics file that we have to download
+            name = calendar_yaml.get("name", name)
+            all_events = requests.get(external).text
+            return all_events, name, True
+
         tz = calendar_yaml.get("timezone", None)
         if tz is not None:
             tz = gettz(tz)
@@ -172,19 +181,23 @@ def files_to_events(files: list) -> (ics.Calendar, str):
         # keep the last one we find
         name = calendar_yaml.get("name", name)
 
-    return all_events, name
+    return all_events, name, False
 
 
 def files_to_calendar(files: list) -> ics.Calendar:
     """'main function: list of files to our result"""
-    all_events, name = files_to_events(files)
+    all_events, name, is_external = files_to_events(files)
 
-    calendar = events_to_calendar(all_events)
-    if name is not None:
-        calendar.extra.append(ics.ContentLine(name="NAME", value=name))
-        calendar.extra.append(ics.ContentLine(name="X-WR-CALNAME", value=name))
+    if is_external:
+        # Existing external ics file
+        calendar = ics.Calendar(all_events)
+    else:
+        calendar = events_to_calendar(all_events)
+        if name is not None:
+            calendar.extra.append(ics.ContentLine(name="NAME", value=name))
+            calendar.extra.append(ics.ContentLine(name="X-WR-CALNAME", value=name))
+
     return calendar
-
 
 # `main` is separate from `cli` to facilitate testing.
 # The only difference being that `main` raises errors while
@@ -199,7 +212,6 @@ def main():
             raise RuntimeError(f"Error: {f} is not a file")
 
     calendar = files_to_calendar(files)
-
     print(calendar.serialize())
 
 
