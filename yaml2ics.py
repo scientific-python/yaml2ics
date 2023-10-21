@@ -11,8 +11,8 @@ import sys
 import dateutil
 import dateutil.rrule
 import ics
-import yaml
 import requests
+import yaml
 from dateutil.tz import gettz
 
 interval_type = {
@@ -198,6 +198,7 @@ def files_to_calendar(files: list) -> ics.Calendar:
             calendar.extra.append(ics.ContentLine(name="X-WR-CALNAME", value=name))
 
     return calendar
+
 
 # `main` is separate from `cli` to facilitate testing.
 # The only difference being that `main` raises errors while
