@@ -169,7 +169,7 @@ def files_to_events(files: list) -> (ics.Calendar, str, bool):
         if tz is not None:
             tz = gettz(tz)
         if "include" in calendar_yaml:
-            included_events, _name = files_to_events(
+            included_events, _name, _ = files_to_events(
                 os.path.join(os.path.dirname(f), newfile)
                 for newfile in calendar_yaml["include"]
             )
