@@ -24,6 +24,7 @@ dependencies = [
     "ics == 0.8.0.dev0",
     "python-dateutil >= 2.8",
     "pyyaml >= 6",
+    "requests",
 ]
 
 [project.optional-dependencies]
