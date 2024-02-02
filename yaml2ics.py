@@ -36,7 +36,7 @@ def utcnow():
     try:
         return datetime.datetime.now(datetime.UTC).replace(tzinfo=dateutil.tz.UTC)
     except AttributeError:
-        # This section can be removed once Python 3.11 is the minimum version
+        # TODO: This section can be removed once Python 3.11 is the minimum version
         return datetime.datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
 
 
