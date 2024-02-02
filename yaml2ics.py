@@ -32,6 +32,14 @@ def datetime2utc(date):
         return datetime.datetime.strftime(date, "%Y%m%d")
 
 
+def utcnow():
+    try:
+        return datetime.datetime.now(datetime.UTC).replace(tzinfo=dateutil.tz.UTC)
+    except AttributeError:
+        # TODO: This section can be removed once Python 3.11 is the minimum version
+        return datetime.datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
+
+
 # See RFC2445, 4.8.5 REcurrence Component Properties
 # This function can be used to add a list of e.g. exception dates (EXDATE) or
 # recurrence dates (RDATE) to a reoccurring event
@@ -120,7 +128,7 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
             rdates = [datetime2utc(rdate) for rdate in repeat["also_on"]]
             add_recurrence_property(event, "RDATE", rdates, tz)
 
-    event.dtstamp = datetime.datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
+    event.dtstamp = utcnow()
     if tz and event.floating and not event.all_day:
         event.replace_timezone(tz)
 
