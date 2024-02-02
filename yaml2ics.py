@@ -120,7 +120,7 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
             rdates = [datetime2utc(rdate) for rdate in repeat["also_on"]]
             add_recurrence_property(event, "RDATE", rdates, tz)
 
-    event.dtstamp = datetime.datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
+    event.dtstamp = datetime.datetime.now(datetime.UTC).replace(tzinfo=dateutil.tz.UTC)
     if tz and event.floating and not event.all_day:
         event.replace_timezone(tz)
 

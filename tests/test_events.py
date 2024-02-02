@@ -1,6 +1,6 @@
-from util import parse_yaml
-
 from yaml2ics import event_from_yaml
+
+from .util import parse_yaml
 
 
 def test_basic_structure():
