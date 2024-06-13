@@ -29,7 +29,9 @@ def datetime2utc(date):
     if isinstance(date, datetime.datetime):
         return datetime.datetime.strftime(date, "%Y%m%dT%H%M%S")
     elif isinstance(date, datetime.date):
-        return datetime.datetime.strftime(date, "%Y%m%d")
+        return datetime.datetime.strftime(date, "%Y%m%dT000000")
+    else:
+        raise RuntimeError(f"Unsure how to convert {date} to UTC")
 
 
 def utcnow():
@@ -164,9 +166,11 @@ def files_to_events(files: list) -> (ics.Calendar, str):
             calendar_yaml = yaml.load(f.read(), Loader=yaml.FullLoader)
         else:
             calendar_yaml = yaml.load(open(f), Loader=yaml.FullLoader)
-        tz = calendar_yaml.get("timezone", None)
+        tz = calendar_yaml.get("timezone")
         if tz is not None:
             tz = gettz(tz)
+        else:
+            tz = dateutil.tz.UTC
         if "include" in calendar_yaml:
             included_events, _name = files_to_events(
                 os.path.join(os.path.dirname(f), newfile)
