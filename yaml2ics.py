@@ -4,6 +4,7 @@ yaml2ics
 
 CLI to convert yaml into ics.
 """
+
 import datetime
 import os
 import sys
