@@ -39,6 +39,9 @@ yaml2ics = "yaml2ics:cli"
 Home = "https://github.com/scientific-python/yaml2ics"
 Source = "https://github.com/scientific-python/yaml2ics"
 
+[tool.changelist]
+ignored_user_logins = ["dependabot[bot]", "pre-commit-ci[bot]", "web-flow"]
+
 [tool.ruff]
 line-length = 88
 target-version = "py38"
