@@ -17,14 +17,16 @@ classifiers = [
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
 ]
 description = "CLI to convert yaml into ics."
 
 dependencies = [
-    "ics-vtimezones == 2020.1",
+    "ics-vtimezones == 2020.2",
     "ics == 0.8.0.dev0",
     "python-dateutil >= 2.8",
     "pyyaml >= 6",
+    "importlib-resources >= 5.2.1"
 ]
 
 [project.optional-dependencies]
