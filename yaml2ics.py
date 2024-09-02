@@ -164,7 +164,10 @@ def files_to_events(files: list) -> (ics.Calendar, str):
         if hasattr(f, "read"):
             calendar_yaml = yaml.load(f.read(), Loader=yaml.FullLoader)
         else:
-            calendar_yaml = yaml.load(open(f), Loader=yaml.FullLoader)
+            if not os.path.exists(f):
+                raise RuntimeError(f"Cannot find included yaml file `{f}`.")
+            with open(f, "rb") as fh:
+                calendar_yaml = yaml.load(fh, Loader=yaml.FullLoader)
         tz = calendar_yaml.get("timezone", None)
         if tz is not None:
             tz = gettz(tz)
@@ -198,11 +201,11 @@ def files_to_calendar(files: list) -> ics.Calendar:
 # `main` is separate from `cli` to facilitate testing.
 # The only difference being that `main` raises errors while
 # `cli` prints them and exits with errorcode 1
-def main():
-    if len(sys.argv) < 2:
+def main(argv: list):
+    if len(argv) < 2:
         raise RuntimeError("Usage: yaml2ics.py FILE1.yaml FILE2.yaml ...")
 
-    files = sys.argv[1:]
+    files = argv[1:]
     for f in files:
         if not os.path.isfile(f):
             raise RuntimeError(f"Error: {f} is not a file")
@@ -214,7 +217,7 @@ def main():
 
 def cli():
     try:
-        main()
+        main(sys.argv)
     except Exception as e:
         print(e, file=sys.stderr)
         sys.exit(-1)

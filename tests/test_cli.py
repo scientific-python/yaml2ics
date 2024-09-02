@@ -1,5 +1,4 @@
 import os
-import sys
 
 import pytest
 
@@ -9,24 +8,16 @@ basedir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 example_calendar = os.path.join(basedir, "../example/test_calendar.yaml")
 
 
-def test_cli(monkeypatch):
-    with monkeypatch.context() as m:
-        m.setattr(sys, "argv", ["yaml2ics.py", example_calendar])
-        main()
+def test_cli():
+    main(["yaml2ics.py", example_calendar])
 
-    with monkeypatch.context() as m:
-        m.setattr(sys, "argv", ["yaml2ics.py"])
+    with pytest.raises(RuntimeError) as e:
+        main(["yaml2ics.py"])
+        assert "Usage:" in str(e)
 
-        with pytest.raises(RuntimeError) as e:
-            main()
-            assert "Usage:" in str(e)
-
-    with monkeypatch.context() as m:
-        m.setattr(sys, "argv", ["yaml2ics.py", "syzygy.yaml"])
-
-        with pytest.raises(RuntimeError) as e:
-            main()
-            assert "is not a file" in str(e)
+    with pytest.raises(RuntimeError) as e:
+        main(["yaml2ics.py", "syzygy.yaml"])
+        assert "is not a file" in str(e)
 
 
 def test_errors():
