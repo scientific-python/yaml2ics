@@ -97,7 +97,7 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
             )
 
         if "until" not in repeat:
-            raise RuntimeError("Error: must specify end date for " "repeating events")
+            raise RuntimeError("Error: must specify end date for repeating events")
 
         # This causes zero-length events, I guess overriding whatever duration
         # might have been specified
