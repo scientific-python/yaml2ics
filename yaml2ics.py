@@ -184,6 +184,8 @@ def files_to_events(files: list) -> (ics.Calendar, str):
         tz = calendar_yaml.get("timezone", None)
         if tz is not None:
             tz = gettz(tz)
+        else:
+            tz = dateutil.tz.UTC
         if "include" in calendar_yaml:
             included_events, _name = files_to_events(
                 os.path.join(os.path.dirname(f), newfile)
