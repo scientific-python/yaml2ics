@@ -26,11 +26,11 @@ interval_type = {
 }
 
 
-def datetime2utc(date):
+def datetime_to_str(date):
     if isinstance(date, datetime.datetime):
-        return datetime.datetime.strftime(date, "%Y%m%dT%H%M%S")
+        return datetime.datetime.strftime(date, "%Y%m%dT%H%M%S%z")
     elif isinstance(date, datetime.date):
-        return datetime.datetime.strftime(date, "%Y%m%d")
+        return datetime.datetime.strftime(date, "%Y%m%d%z")
 
 
 def utcnow():
@@ -122,12 +122,12 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
         )
 
         if "except_on" in repeat:
-            exdates = [datetime2utc(rdate) for rdate in repeat["except_on"]]
-            add_recurrence_property(event, "EXDATE", exdates)
+            exdates = [datetime_to_str(rdate) for rdate in repeat["except_on"]]
+            add_recurrence_property(event, "EXDATE", exdates, tz)
 
         if "also_on" in repeat:
-            rdates = [datetime2utc(rdate) for rdate in repeat["also_on"]]
-            add_recurrence_property(event, "RDATE", rdates)
+            rdates = [datetime_to_str(rdate) for rdate in repeat["also_on"]]
+            add_recurrence_property(event, "RDATE", rdates, tz)
 
     event.dtstamp = utcnow()
     if tz and event.floating and not event.all_day:
