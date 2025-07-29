@@ -123,11 +123,11 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
 
         if "except_on" in repeat:
             exdates = [datetime2utc(rdate) for rdate in repeat["except_on"]]
-            add_recurrence_property(event, "EXDATE", exdates, tz)
+            add_recurrence_property(event, "EXDATE", exdates)
 
         if "also_on" in repeat:
             rdates = [datetime2utc(rdate) for rdate in repeat["also_on"]]
-            add_recurrence_property(event, "RDATE", rdates, tz)
+            add_recurrence_property(event, "RDATE", rdates)
 
     event.dtstamp = utcnow()
     if tz and event.floating and not event.all_day:
