@@ -45,18 +45,20 @@ def utcnow():
 # This function can be used to add a list of e.g. exception dates (EXDATE) or
 # recurrence dates (RDATE) to a reoccurring event
 def add_recurrence_property(
-    event: ics.Event, property_name, dates: map, tz: datetime.tzinfo = None
+    event: ics.Event, property_name, dates: map, tz: datetime.tzinfo = dateutil.tz.UTC
 ):
     event.extra.append(
         ics.ContentLine(
             name=property_name,
-            params={"TZID": [str(ics.Timezone.from_tzinfo(tz))]} if tz else None,
+            params={"TZID": [str(ics.Timezone.from_tzinfo(tz))]},
             value=",".join(dates),
         )
     )
 
 
-def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
+def event_from_yaml(
+    event_yaml: dict, tz: datetime.tzinfo = dateutil.tz.UTC
+) -> ics.Event:
     d = event_yaml
     repeat = d.pop("repeat", None)
     ics_custom = d.pop("ics", None)
@@ -171,6 +173,8 @@ def files_to_events(files: list) -> (ics.Calendar, str):
         tz = calendar_yaml.get("timezone", None)
         if tz is not None:
             tz = gettz(tz)
+        else:
+            tz = dateutil.tz.UTC
         if "include" in calendar_yaml:
             included_events, _name = files_to_events(
                 os.path.join(os.path.dirname(f), newfile)
