@@ -13,7 +13,7 @@ import dateutil
 import dateutil.rrule
 import ics
 import yaml
-from dateutil.tz import gettz
+from dateutil.tz import gettz as _gettz
 
 interval_type = {
     "seconds": dateutil.rrule.SECONDLY,
@@ -41,6 +41,13 @@ def utcnow():
         return datetime.datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
 
 
+def gettz(tzname):
+    tz = _gettz(tzname)
+    if tz is None:
+        raise ValueError(f"Invalid timezone encountered: `{tzname}`")
+    return tz
+
+
 # See RFC2445, 4.8.5 REcurrence Component Properties
 # This function can be used to add a list of e.g. exception dates (EXDATE) or
 # recurrence dates (RDATE) to a reoccurring event
@@ -62,7 +69,8 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
     ics_custom = d.pop("ics", None)
 
     if "timezone" in d:
-        tz = gettz(d.pop("timezone"))
+        tzname = d.pop("timezone")
+        tz = gettz(tzname)
 
     # Strip all string values, since they often end on `\n`
     for key in d:
@@ -75,6 +83,15 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
     # location, url, transparent, alarms, attendees, categories, status,
     # organizer, geo, classification
     event = ics.Event(**d)
+
+    event.dtstamp = utcnow()
+    if tz and event.floating and not event.all_day:
+        event.replace_timezone(tz)
+
+    # At this point, we are sure that our event has a timezone
+    # Either it was set in the YAML file under `timezone: ...`,
+    # or it was inferred from event start time.
+    tz = event.timespan.begin_time.tzinfo
 
     # Handle all-day events
     if not ("duration" in d or "end" in d):
@@ -128,10 +145,6 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
         if "also_on" in repeat:
             rdates = [datetime2utc(rdate) for rdate in repeat["also_on"]]
             add_recurrence_property(event, "RDATE", rdates, tz)
-
-    event.dtstamp = utcnow()
-    if tz and event.floating and not event.all_day:
-        event.replace_timezone(tz)
 
     if ics_custom:
         for line in ics_custom.split("\n"):
