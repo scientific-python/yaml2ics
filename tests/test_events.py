@@ -1,4 +1,6 @@
-from yaml2ics import event_from_yaml
+import io
+
+from yaml2ics import event_from_yaml, files_to_events
 
 from .util import parse_yaml
 
@@ -145,3 +147,29 @@ def test_event_with_custom_ics():
     )
     event_str = event.serialize()
     assert "RRULE:FREQ=YEARLY;UNTIL=20280422T000000" in event_str
+
+
+def test_events_with_multiple_timezones():
+    f = io.BytesIO(b"""
+        name: Multiple Timezone Cal
+        timezone: America/Los_Angeles
+        events:
+          - summary: Meeting A
+            begin: 2025-07-15 17:00:00 +00:00
+            duration: { minutes: 60 }
+          - summary: Meeting B
+            timezone: UTC
+            begin: 2025-12-01 09:00:00
+            duration: { minutes: 60 }
+          - summary: Meeting C
+            begin: 2025-09-02 17:00:00
+            duration: { minutes: 60 }
+          - summary: Meeting D
+            begin: 2025-12-01 09:00:00
+            duration: { minutes: 60 }
+    """)
+    events, _ = files_to_events([f])
+    assert events[0].begin.tzname() in ("UTC", "Coordinated Universal Time")
+    assert events[1].begin.tzname() in ("UTC", "Coordinated Universal Time")
+    assert events[2].begin.tzname() == "PDT"
+    assert events[3].begin.tzname() == "PST"

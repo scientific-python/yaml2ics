@@ -1,8 +1,11 @@
+import datetime
+import io
 import os
 
 import pytest
+import zoneinfo
 
-from yaml2ics import event_from_yaml, main
+from yaml2ics import event_from_yaml, files_to_events, main
 
 basedir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 example_calendar = os.path.join(basedir, "../example/test_calendar.yaml")
@@ -21,18 +24,28 @@ def test_cli():
 
 
 def test_errors():
+    begin = datetime.date(2025, 12, 1)
     with pytest.raises(RuntimeError) as e:
-        event_from_yaml({"repeat": {"interval": {}}})
+        event_from_yaml({"begin": begin, "repeat": {"interval": {}}})
     assert "interval must specify" in str(e)
 
     with pytest.raises(RuntimeError) as e:
-        event_from_yaml({"ics": "123"})
+        event_from_yaml({"begin": begin, "ics": "123"})
     assert "Invalid custom ICS" in str(e)
 
     with pytest.raises(RuntimeError) as e:
-        event_from_yaml({"repeat": {"interval": {"weeks": 1}}})
+        event_from_yaml({"begin": begin, "repeat": {"interval": {"weeks": 1}}})
     assert "must specify end date for repeating events" in str(e)
 
     with pytest.raises(RuntimeError) as e:
-        event_from_yaml({"repeat": {"interval": {"epochs": 4}}})
+        event_from_yaml({"begin": begin, "repeat": {"interval": {"epochs": 4}}})
     assert "expected interval to be specified in seconds, minutes" in str(e)
+
+
+def test_invalid_timezone():
+    f = io.BytesIO(b"""
+    name: Invalid tz cal
+    timezone: US/Pacificana
+     """)
+    with pytest.raises(zoneinfo.ZoneInfoNotFoundError):
+        files_to_events([f])

@@ -60,6 +60,8 @@ events:
       In this meeting we will ...
 ```
 
+Valid timezones are listed at https://datetime.app/iana-timezones
+
 ## Contributing
 
 Contributions are welcomed! This project is still in active development
