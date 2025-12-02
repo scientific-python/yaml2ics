@@ -13,6 +13,7 @@ import dateutil
 import dateutil.rrule
 import ics
 import yaml
+import zoneinfo
 from dateutil.tz import gettz as _gettz
 
 interval_type = {
@@ -41,11 +42,10 @@ def utcnow():
         return datetime.datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
 
 
-def gettz(tzname):
-    tz = _gettz(tzname)
-    if tz is None:
-        raise ValueError(f"Invalid timezone encountered: `{tzname}`")
-    return tz
+def gettz(tzname: str) -> datetime.tzinfo:
+    # Run this to ensure the timezone is valid IANA name
+    zoneinfo.ZoneInfo(tzname)
+    return _gettz(tzname)
 
 
 # See RFC2445, 4.8.5 REcurrence Component Properties
