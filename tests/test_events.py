@@ -169,7 +169,7 @@ def test_events_with_multiple_timezones():
             duration: { minutes: 60 }
     """)
     events, _ = files_to_events([f])
-    assert events[0].begin.tzname() == "UTC"
-    assert events[1].begin.tzname() == "UTC"
+    assert events[0].begin.tzname() in ("UTC", "Coordinated Universal Time")
+    assert events[1].begin.tzname() in ("UTC", "Coordinated Universal Time")
     assert events[2].begin.tzname() == "PDT"
     assert events[3].begin.tzname() == "PST"
