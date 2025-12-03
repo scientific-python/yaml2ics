@@ -63,13 +63,13 @@ def add_recurrence_property(
     )
 
 
-def event_from_yaml(
-    event_yaml: dict, tz: datetime.tzinfo = dateutil.tz.UTC
-) -> ics.Event:
+def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
     d = event_yaml
     repeat = d.pop("repeat", None)
     ics_custom = d.pop("ics", None)
 
+    if tz is None:
+        tz = dateutil.tz.UTC
     if "timezone" in d:
         tzname = d.pop("timezone")
         tz = gettz(tzname)
