@@ -21,10 +21,11 @@ Example `version number`
 
 - Autogenerate release notes
 
-      echo $ changelist ${ORG}/${REPO} v${PREVIOUS} main --version ${VERSION}
-      changelist ${ORG}/${REPO} v${PREVIOUS} main --version ${VERSION}
+      changelist ${ORG}/${REPO} v${PREVIOUS} main --version ${VERSION} --config pyproject.toml --out ${VERSION}.md
 
 - Put the output of the above command at the top of `CHANGELOG.md`
+
+      cat ${VERSION}.md | cat - ${LOG} > temp && mv temp ${LOG}
 
 - Update `version` in `pyproject.toml`.
 
@@ -47,9 +48,21 @@ Example `version number`
   where `origin` is the name of the `github.com:scientific-python/yaml2ics`
   repository
 
-- Review the github release page:
+- Create release from tag
 
-      https://github.com/scientific-python/yaml2ics/tags
+      - go to https://github.com/scientific-python/scientific-python-hugo-theme/releases/tags
+      - click the 3 dots: create a release
+      - use v${VERSION} for the `Release title`
+      - paste contents (or upload) of ${VERSION}.md in the `Describe this release section`
+      - if pre-release check the box labelled `Set as a pre-release`
+
+- Ensure that release landed on PyPi: https://pypi.org/project/yaml2ics/#history
+
+- If a full release, update
+  https://github.com/scientific-python/yaml2ics/milestones:
+
+      - close old milestone
+      - ensure new milestone exists (perhaps setting due date)
 
 - Update `version` in `pyproject.toml`.
 
