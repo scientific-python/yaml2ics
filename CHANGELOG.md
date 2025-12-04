@@ -1,6 +1,6 @@
-# Changelog
+# Changelog for yaml2ics
 
-## yaml2ics 0.3rc0
+## [v0.3](https://github.com/scientific-python/yaml2ics/tree/v0.3)
 
 ### Enhancements
 
@@ -35,6 +35,7 @@
 - Update pytest config ([#100](https://github.com/scientific-python/yaml2ics/pull/100)).
 - Update pre-commit (12/2024) ([#107](https://github.com/scientific-python/yaml2ics/pull/107)).
 - Support for Python: added 3.13, 3.14, removed 3.8 ([#119](https://github.com/scientific-python/yaml2ics/pull/119)).
+- MAINT: actually bumping minimum python to 3.9 [#126](https://github.com/scientific-python/yaml2ics/pull/126)).
 
 ### Other
 
