@@ -173,3 +173,19 @@ def test_events_with_multiple_timezones():
     assert events[1].begin.tzname() in ("UTC", "Coordinated Universal Time")
     assert events[2].begin.tzname() == "PDT"
     assert events[3].begin.tzname() == "PST"
+
+
+def test_events_without_timezone():
+    f = io.BytesIO(b"""
+        name: Default Timezone
+        events:
+          - summary: Meeting A
+            begin: 2025-09-02 17:00:00
+            duration: { minutes: 60 }
+          - summary: Meeting B
+            begin: 2025-12-01 09:00:00
+            end: 2025-12-01 10:00:00
+    """)
+    events, _ = files_to_events([f])
+    assert events[0].begin.tzname() in ("UTC", "Coordinated Universal Time")
+    assert events[1].begin.tzname() in ("UTC", "Coordinated Universal Time")

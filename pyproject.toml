@@ -89,6 +89,7 @@ ignore = [
   "ARG001",   # Unused function argument
   "PT012",    # `pytest.raises()` block
   "PLW0129",  # Asserting on a non-empty string literal will always pass
+  "SIM108",   # Use ternary operator instead of `if`-`else`-block
 ]
 
 [tool.pytest.ini_options]

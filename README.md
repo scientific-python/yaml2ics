@@ -60,7 +60,27 @@ events:
       In this meeting we will ...
 ```
 
+## Timezones
+
+The event timezone can be specified in three ways (in reverse order of precedence):
+
+1. Using the `timezone: ...` field, as shown above under "Syntax".
+2. Adding it to an individual event:
+
+   ```yaml
+   - summary: My event
+     timezone: US/Pacific
+   ```
+
+3. By specifying a timezone in the event start time:
+
+   ```
+   2021-09-21 15:00:00 +07:00
+   ```
+
 Valid timezones are listed at https://datetime.app/iana-timezones
+
+If no timezone is set, we default to UTC.
 
 ## Contributing
 
