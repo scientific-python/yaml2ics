@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "yaml2ics"
-version = "0.3rc0.dev0"
+version = "0.3rc0"
 requires-python = ">=3.8"
 authors = [{name = "Scientific Python Developers"}]
 readme = "README.md"
@@ -44,6 +44,8 @@ Home = "https://github.com/scientific-python/yaml2ics"
 Source = "https://github.com/scientific-python/yaml2ics"
 
 [tool.changelist]
+intro_template = ""
+outro_template = ""
 ignored_user_logins = ["dependabot[bot]", "pre-commit-ci[bot]", "web-flow"]
 
 [tool.ruff.lint]

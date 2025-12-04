@@ -1,5 +1,59 @@
 # Changelog
 
+## yaml2ics 0.3rc0
+
+### Enhancements
+
+- Print concise error messages when invoking `yaml2ics` command ([#55](https://github.com/scientific-python/yaml2ics/pull/55)).
+- Default to UTC timezone ([#116](https://github.com/scientific-python/yaml2ics/pull/116)).
+
+### Bug Fixes
+
+- Unpin pytest ([#88](https://github.com/scientific-python/yaml2ics/pull/88)).
+- BUG: include timezone info in datetime_to_str converter ([#115](https://github.com/scientific-python/yaml2ics/pull/115)).
+- Correctly infer timezone from event begin time ([#125](https://github.com/scientific-python/yaml2ics/pull/125)).
+
+### Maintenance
+
+- Test on Python 3.12.0-beta.2 ([#56](https://github.com/scientific-python/yaml2ics/pull/56)).
+- Use label-check and attach-next-milestone-action ([#58](https://github.com/scientific-python/yaml2ics/pull/58)).
+- Use setuptools ([#59](https://github.com/scientific-python/yaml2ics/pull/59)).
+- Specify what goes in sdist ([#60](https://github.com/scientific-python/yaml2ics/pull/60)).
+- Use changelist ([#61](https://github.com/scientific-python/yaml2ics/pull/61)).
+- Use dependabot ([#62](https://github.com/scientific-python/yaml2ics/pull/62)).
+- Use trusted publisher ([#70](https://github.com/scientific-python/yaml2ics/pull/70)).
+- Pin ics-vtimezones to 2020.1 ([#78](https://github.com/scientific-python/yaml2ics/pull/78)).
+- Pin pytest ([#85](https://github.com/scientific-python/yaml2ics/pull/85)).
+- Use setup-python pip caching ([#87](https://github.com/scientific-python/yaml2ics/pull/87)).
+- Add changelist config ([#94](https://github.com/scientific-python/yaml2ics/pull/94)).
+- Update pre-commit repos ([#95](https://github.com/scientific-python/yaml2ics/pull/95)).
+- Update ruff config ([#96](https://github.com/scientific-python/yaml2ics/pull/96)).
+- Update GH actions ([#97](https://github.com/scientific-python/yaml2ics/pull/97)).
+- Add codespell pre-commit ([#98](https://github.com/scientific-python/yaml2ics/pull/98)).
+- Test on Python 3.13-dev ([#99](https://github.com/scientific-python/yaml2ics/pull/99)).
+- Fix cli and inclusion file tests ([#104](https://github.com/scientific-python/yaml2ics/pull/104)).
+- Update pytest config ([#100](https://github.com/scientific-python/yaml2ics/pull/100)).
+- Update pre-commit (12/2024) ([#107](https://github.com/scientific-python/yaml2ics/pull/107)).
+- Support for Python: added 3.13, 3.14, removed 3.8 ([#119](https://github.com/scientific-python/yaml2ics/pull/119)).
+
+### Other
+
+- CI: adding workflow_dispatch ([#84](https://github.com/scientific-python/yaml2ics/pull/84)).
+
+### Contributors
+
+3 authors added to this release (alphabetically):
+
+- Brigitta Sipőcz ([@bsipocz](https://github.com/bsipocz))
+- Jarrod Millman ([@jarrodmillman](https://github.com/jarrodmillman))
+- Stefan van der Walt ([@stefanv](https://github.com/stefanv))
+
+3 reviewers added to this release (alphabetically):
+
+- Brigitta Sipőcz ([@bsipocz](https://github.com/bsipocz))
+- Jarrod Millman ([@jarrodmillman](https://github.com/jarrodmillman))
+- Stefan van der Walt ([@stefanv](https://github.com/stefanv))
+
 ## [v0.2](https://github.com/scientific-python/yaml2ics/tree/v0.2)
 
 [Full Changelog](https://github.com/scientific-python/yaml2ics/compare/v0.1...v0.2)

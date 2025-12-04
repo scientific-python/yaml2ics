@@ -21,6 +21,7 @@ Example `version number`
 
 - Autogenerate release notes
 
+      echo $ changelist ${ORG}/${REPO} v${PREVIOUS} main --version ${VERSION}
       changelist ${ORG}/${REPO} v${PREVIOUS} main --version ${VERSION}
 
 - Put the output of the above command at the top of `CHANGELOG.md`
