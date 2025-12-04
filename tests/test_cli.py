@@ -1,9 +1,9 @@
 import datetime
 import io
 import os
+import zoneinfo
 
 import pytest
-import zoneinfo
 
 from yaml2ics import event_from_yaml, files_to_events, main
 

@@ -8,12 +8,12 @@ CLI to convert yaml into ics.
 import datetime
 import os
 import sys
+import zoneinfo
 
 import dateutil
 import dateutil.rrule
 import ics
 import yaml
-import zoneinfo
 from dateutil.tz import gettz as _gettz
 
 interval_type = {
@@ -70,6 +70,7 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
 
     if tz is None:
         tz = dateutil.tz.UTC
+
     if "timezone" in d:
         tzname = d.pop("timezone")
         tz = gettz(tzname)
@@ -94,6 +95,9 @@ def event_from_yaml(event_yaml: dict, tz: datetime.tzinfo = None) -> ics.Event:
     # Either it was set in the YAML file under `timezone: ...`,
     # or it was inferred from event start time.
     tz = event.timespan.begin_time.tzinfo
+
+    if not tz:
+        tz = dateutil.tz.UTC
 
     # Handle all-day events
     if not ("duration" in d or "end" in d):
