@@ -69,7 +69,7 @@ The event timezone can be specified in three ways (in reverse order of precedenc
 
    ```yaml
    - summary: My event
-     timezone: US/Pacific
+     timezone: America/Los_Angeles
    ```
 
 3. By specifying a timezone in the event start time:
