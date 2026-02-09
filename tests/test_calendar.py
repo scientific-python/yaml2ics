@@ -24,7 +24,7 @@ def test_calendar_event():
             events:
               - summary: Earth Day
                 begin: 2021-04-22
-                url: https://earthday.org
+                location: https://earthday.org
                 location: Earth
             """
             )
