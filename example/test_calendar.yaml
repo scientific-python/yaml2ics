@@ -50,7 +50,7 @@ events:
   # All-day event
   - summary: Earth Day
     begin: 2021-04-22
-    url: https://earthday.org
+    location: https://earthday.org
     repeat:
       interval:
         # seconds, minutes, hours, days, weeks, months, years
