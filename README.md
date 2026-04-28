@@ -80,7 +80,9 @@ The event timezone can be specified in three ways (in reverse order of precedenc
 
 Valid timezones are listed at https://datetime.app/iana-timezones
 
-If no timezone is set, we default to UTC.
+If no timezone is set, we default to UTC. And, in fact, this is the
+recommended way to use UTC. Timezones like `Etc/UTC` are not well
+understood by, e.g., Google Calendar.
 
 ## Contributing
 
