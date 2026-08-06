@@ -11,8 +11,7 @@ def test_basic_structure():
             """
             summary: Earth Day
             begin: 2021-04-22
-            url: https://earthday.org
-            location: Earth
+            location: https://earthday.org
             """
         )
     )
@@ -23,8 +22,7 @@ def test_basic_structure():
     for line in lines[:-1]:
         assert line.endswith("\r")
     assert "SUMMARY:Earth Day" in event_str
-    assert "URL:https://earthday.org" in event_str
-    assert "LOCATION:Earth" in event_str
+    assert "LOCATION:https://earthday.org" in event_str
     # All events must have a DTSTAMP
     assert "DTSTAMP" in event_str
 
@@ -35,7 +33,7 @@ def test_all_day_event():
             """
             summary: Earth Day
             begin: 2021-04-22
-            url: https://earthday.org
+            location: https://earthday.org
             """
         )
     )
@@ -53,7 +51,6 @@ def test_rrule():
             """
             summary: Earth Day
             begin: 2021-04-22
-            url: https://earthday.org
             repeat:
               interval:
                 years: 1
@@ -139,7 +136,6 @@ def test_event_with_custom_ics():
             """
             summary: Earth Day
             begin: 2021-04-22
-            url: https://earthday.org
             ics: |
               RRULE:FREQ=YEARLY;UNTIL=20280422T000000
             """
