@@ -70,7 +70,7 @@ def test_calendar_default_timezone():
 
     # Test again by normalizing to UTC.  Helsinki is two hours ahead, so the
     # times should be 22:00:00.
-    cal.normalize(datetime.timezone.utc)
+    cal.normalize(datetime.UTC)
     cal_norm_str = cal.serialize()  # noqa: F841
     # 1 Feb midnight
     assert "DTSTART:20211231T220000Z"  # 1 jan
@@ -105,7 +105,7 @@ def test_calendar_event_different_timezone():
 
     # Test again by normalizing to UTC.  Helsinki is two hours ahead, so the
     # times should be 22:00:00.
-    cal.normalize(datetime.timezone.utc)
+    cal.normalize(datetime.UTC)
     cal_norm_str = cal.serialize()  # noqa: F841
     # 1 Feb midnight
     assert "DTSTART:20211231T220000Z"  # 1 jan

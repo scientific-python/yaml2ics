@@ -35,11 +35,7 @@ def datetime_to_str(date):
 
 
 def utcnow():
-    try:
-        return datetime.datetime.now(datetime.UTC).replace(tzinfo=dateutil.tz.UTC)
-    except AttributeError:
-        # TODO: This section can be removed once Python 3.11 is the minimum version
-        return datetime.datetime.utcnow().replace(tzinfo=dateutil.tz.UTC)
+    return datetime.datetime.now(datetime.UTC).replace(tzinfo=dateutil.tz.UTC)
 
 
 def gettz(tzname: str) -> datetime.tzinfo:
