@@ -1,10 +1,12 @@
 import datetime
 import io
 import os
+import sys
 import zoneinfo
 
 import pytest
 
+import yaml2ics
 from yaml2ics import event_from_yaml, files_to_events, main
 
 basedir = os.path.abspath(os.path.join(os.path.dirname(__file__)))
@@ -40,6 +42,15 @@ def test_errors():
     with pytest.raises(RuntimeError) as e:
         event_from_yaml({"begin": begin, "repeat": {"interval": {"epochs": 4}}})
     assert "expected interval to be specified in seconds, minutes" in str(e)
+
+
+def test_cli_error_exit_code(monkeypatch, capsys):
+    monkeypatch.setattr(sys, "argv", ["yaml2ics.py"])
+    with pytest.raises(SystemExit) as excinfo:
+        yaml2ics.cli()
+    assert excinfo.value.code == 1
+    err = capsys.readouterr().err
+    assert "Usage:" in err
 
 
 def test_invalid_timezone():
